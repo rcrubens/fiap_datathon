@@ -9,14 +9,10 @@ from datetime import datetime
 # CONFIGURAÇÃO DE VALORES VÁLIDOS
 # --------------------------
 valores_possiveis = {
-    'informacoes_pessoais_sexo': ['Masculino', 'Feminino'],
-    'informacoes_pessoais_estado_civil': ['Solteiro', 'Casado', 'União Estável', 'Divorciado',
-                                          'Separado Judicialmente', 'Viúvo'],
-    'informacoes_pessoais_pcd': ['Não', 'Sim'],
-    'formacao_e_idiomas_nivel_academico': ['Ensino Superior Completo', 'Pós Graduação Completo',
-                                           'Ensino Médio Completo'],
-    'formacao_e_idiomas_nivel_ingles': ['Nenhum', 'Básico', 'Intermediário', 'Avançado', 'Fluente'],
-    'formacao_e_idiomas_nivel_espanhol': ['Nenhum', 'Básico', 'Intermediário', 'Avançado', 'Fluente']
+    'informacoes_pessoais_sexo': ['Masculino', 'Feminino'], 
+    'informacoes_pessoais_estado_civil': ['Solteiro', 'Casado', 'União Estável', 'Divorciado', 'Separado Judicialmente', 'Viúvo'], 
+    'informacoes_pessoais_pcd': ['Não', 'Sim'], 
+    'informacoes_pessoais_endereco': ['rio de janeiro', 'são paulo', 'bahia', 'minas gerais', 'distrito federal', 'santa catarina', 'paraná', 'rio grande do sul', 'maranhão', 'pernambuco', 'ceará', 'pará', 'paraíba', 'piauí', 'goiás', 'alagoas', 'rondônia', 'rio grande do norte', 'sergipe', 'roraima', 'mato grosso do sul', 'amazonas', 'tocantins', 'mato grosso', 'amapá', 'acre'], 'formacao_e_idiomas_nivel_academico': ['Ensino Superior Completo', 'Pós Graduação Completo', 'Ensino Médio Completo', 'Mestrado Completo', 'Ensino Superior Cursando', 'Pós Graduação Incompleto', 'Ensino Superior Incompleto', 'Ensino Técnico Completo', 'Pós Graduação Cursando', 'Ensino Técnico Cursando', 'Mestrado Incompleto', 'Ensino Fundamental Completo', 'Ensino Médio Incompleto', 'Mestrado Cursando', 'Doutorado Incompleto', 'Doutorado Completo', 'Doutorado Cursando', 'Ensino Médio Cursando', 'Ensino Técnico Incompleto', 'Ensino Fundamental Incompleto', 'Ensino Fundamental Cursando'], 'formacao_e_idiomas_nivel_ingles': ['Intermediário', 'Avançado', 'Fluente', 'Básico', 'Nenhum'], 'formacao_e_idiomas_nivel_espanhol': ['Básico', 'Intermediário', 'Nenhum', 'Fluente', 'Avançado']
 }
 
 # --------------------------
@@ -31,7 +27,6 @@ st.title("Cadastro de Candidato")
 
 with st.form("formulario_candidato"):
     st.subheader("Preencha seus dados")
-    objetivo = st.text_area("Objetivo Profissional")
     sexo = st.selectbox("Sexo", valores_possiveis['informacoes_pessoais_sexo'])
     estado_civil = st.selectbox("Estado Civil", valores_possiveis['informacoes_pessoais_estado_civil'])
     pcd = st.selectbox("Possui deficiência (PCD)?", valores_possiveis['informacoes_pessoais_pcd'])
@@ -47,7 +42,6 @@ with st.form("formulario_candidato"):
 # --------------------------
 if enviar:
     candidato = pd.DataFrame([{
-        "infos_basicas_objetivo_profissional": objetivo,
         "informacoes_pessoais_sexo": sexo,
         "informacoes_pessoais_estado_civil": estado_civil,
         "informacoes_pessoais_pcd": pcd,
