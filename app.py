@@ -5,9 +5,6 @@ import matplotlib.pyplot as plt
 import joblib
 from datetime import datetime
 
-# --------------------------
-# CONFIGURAÇÃO DE VALORES VÁLIDOS
-# --------------------------
 valores_possiveis = {
     'informacoes_pessoais_sexo': ['Masculino', 'Feminino'], 
     'informacoes_pessoais_estado_civil': ['Solteiro', 'Casado', 'União Estável', 'Divorciado', 'Separado Judicialmente', 'Viúvo'], 
@@ -15,14 +12,8 @@ valores_possiveis = {
     'informacoes_pessoais_endereco': ['rio de janeiro', 'são paulo', 'bahia', 'minas gerais', 'distrito federal', 'santa catarina', 'paraná', 'rio grande do sul', 'maranhão', 'pernambuco', 'ceará', 'pará', 'paraíba', 'piauí', 'goiás', 'alagoas', 'rondônia', 'rio grande do norte', 'sergipe', 'roraima', 'mato grosso do sul', 'amazonas', 'tocantins', 'mato grosso', 'amapá', 'acre'], 'formacao_e_idiomas_nivel_academico': ['Ensino Superior Completo', 'Pós Graduação Completo', 'Ensino Médio Completo', 'Mestrado Completo', 'Ensino Superior Cursando', 'Pós Graduação Incompleto', 'Ensino Superior Incompleto', 'Ensino Técnico Completo', 'Pós Graduação Cursando', 'Ensino Técnico Cursando', 'Mestrado Incompleto', 'Ensino Fundamental Completo', 'Ensino Médio Incompleto', 'Mestrado Cursando', 'Doutorado Incompleto', 'Doutorado Completo', 'Doutorado Cursando', 'Ensino Médio Cursando', 'Ensino Técnico Incompleto', 'Ensino Fundamental Incompleto', 'Ensino Fundamental Cursando'], 'formacao_e_idiomas_nivel_ingles': ['Intermediário', 'Avançado', 'Fluente', 'Básico', 'Nenhum'], 'formacao_e_idiomas_nivel_espanhol': ['Básico', 'Intermediário', 'Nenhum', 'Fluente', 'Avançado']
 }
 
-# --------------------------
-# CARREGAR MODELO
-# --------------------------
 modelo = joblib.load("modelo_ia_decision.joblib")
 
-# --------------------------
-# FORMULÁRIO
-# --------------------------
 st.title("Cadastro de Candidato")
 
 with st.form("formulario_candidato"):
@@ -30,16 +21,13 @@ with st.form("formulario_candidato"):
     sexo = st.selectbox("Sexo", valores_possiveis['informacoes_pessoais_sexo'])
     estado_civil = st.selectbox("Estado Civil", valores_possiveis['informacoes_pessoais_estado_civil'])
     pcd = st.selectbox("Possui deficiência (PCD)?", valores_possiveis['informacoes_pessoais_pcd'])
-    endereco = st.selectbox("Estado", ["são paulo", "rio de janeiro", "distrito federal", "minas gerais", "bahia"])
+    endereco = st.selectbox("Estado", valores_possiveis['informacoes_pessoais_endereco'])
     nivel_academico = st.selectbox("Formação Acadêmica", valores_possiveis['formacao_e_idiomas_nivel_academico'])
     nivel_ingles = st.selectbox("Nível de Inglês", valores_possiveis['formacao_e_idiomas_nivel_ingles'])
     nivel_espanhol = st.selectbox("Nível de Espanhol", valores_possiveis['formacao_e_idiomas_nivel_espanhol'])
 
     enviar = st.form_submit_button("Enviar")
 
-# --------------------------
-# PROCESSAMENTO APÓS ENVIO
-# --------------------------
 if enviar:
     candidato = pd.DataFrame([{
         "informacoes_pessoais_sexo": sexo,
@@ -61,11 +49,9 @@ if enviar:
 
     base.to_csv("base_candidatos.csv", index=False)
 
-    # PREVISÃO
     prob = modelo.predict_proba(candidato)[0][1]
     st.success(f"Probabilidade estimada de contratação: {prob:.1%}")
 
-    # GRÁFICO RADAR
     def gerar_radar(candidato, modelo, valores_possiveis):
         radar_scores = {}
 
